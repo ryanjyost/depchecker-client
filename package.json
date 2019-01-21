@@ -1,0 +1,43 @@
+{
+  "name": "deps-client",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "2.1.1"
+  },
+  "dependencies": {
+    "antd": "^3.11.2",
+    "axios": "^0.18.0",
+    "brace": "^0.11.1",
+    "dotenv": "^6.2.0",
+    "javascript-time-ago": "^1.0.34",
+    "moment": "^2.23.0",
+    "numeral": "^2.0.6",
+    "oauth": "^0.9.15",
+    "react": "^16.6.3",
+    "react-ace": "^6.3.2",
+    "react-csv": "^1.0.19",
+    "react-dom": "^16.6.3",
+    "react-dropzone": "8.0.0",
+    "react-simple-storage": "^1.4.1",
+    "react-table": "^6.8.6",
+    "underscore": "^1.9.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "deploy-staging": "aws s3 sync build/ s3://staging.moviemedium.io --delete",
+    "deploy-prod-dangerous": "aws s3 sync build/ s3://depchecker.com --delete"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
