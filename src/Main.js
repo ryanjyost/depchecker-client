@@ -489,35 +489,45 @@ export default class Main extends Component {
                 margin: "20px 0px 15px 0px"
               }}
             >
-              <div
-                style={{
-                  fontSize: 18,
-                  textAlign: "center",
-                  lineHeight: 1.2,
-                  marginBottom: 10
-                }}
-              >
-                <strong>Relax</strong>{" "}
-                <span style={{ color: mainStyles.blackOp(0.4) }}>
-                  while DepChecker does its thing
-                </span>
-              </div>
-              {this.state.depBeingAnalyzed && (
-                <div style={{ marginTop: 10 }}>
-                  Analyzing <strong>{this.state.depBeingAnalyzed}</strong>...
+              {step !== 2 && (
+                <div
+                  style={{
+                    fontSize: 18,
+                    textAlign: "center",
+                    lineHeight: 1.2,
+                    marginBottom: 10
+                  }}
+                >
+                  <strong>Relax</strong>{" "}
+                  <span style={{ color: mainStyles.blackOp(0.4) }}>
+                    while DepChecker does its thing
+                  </span>
                 </div>
               )}
-              <div style={{ width: "100%" }}>
-                <Progress
-                  format={percent =>
-                    `${this.state.depIndex}/${this.state.depsToAnalyze}`
-                  }
-                  percent={
-                    (this.state.depIndex / this.state.depsToAnalyze) * 100
-                  }
-                  status={step === 2 ? "active" : "normal"}
-                />
-              </div>
+              {step === 2 && (
+                <div style={{ marginTop: 10 }}>
+                  {!this.state.depBeingAnalyzed ? (
+                    "Starting analysis..."
+                  ) : (
+                    <span>
+                      analyzing <strong>{this.state.depBeingAnalyzed}</strong>...
+                    </span>
+                  )}
+                </div>
+              )}
+              {step === 2 && (
+                <div style={{ width: "100%" }}>
+                  <Progress
+                    format={percent =>
+                      `${this.state.depIndex}/${this.state.depsToAnalyze}`
+                    }
+                    percent={
+                      (this.state.depIndex / this.state.depsToAnalyze) * 100
+                    }
+                    status={step === 2 ? "active" : "normal"}
+                  />
+                </div>
+              )}
             </div>
           </div>
         );
@@ -624,24 +634,26 @@ export default class Main extends Component {
             }}
           >
             {renderNumber(3)}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "20px 0px 15px 0px"
-              }}
-            >
-              <span
-                style={{ fontSize: 18, textAlign: "center", lineHeight: 1.2 }}
+            {step !== 3 && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: "20px 0px 15px 0px"
+                }}
               >
-                <strong>Export</strong>{" "}
-                <span style={{ color: mainStyles.blackOp(0.4) }}>
-                  your project's dependency report
+                <span
+                  style={{ fontSize: 18, textAlign: "center", lineHeight: 1.2 }}
+                >
+                  <strong>Export</strong>{" "}
+                  <span style={{ color: mainStyles.blackOp(0.4) }}>
+                    your project's dependency report
+                  </span>
                 </span>
-              </span>
-            </div>
-            {renderCSVLink()}
+              </div>
+            )}
+            {step === 3 && renderCSVLink()}
           </div>
         </div>
       );

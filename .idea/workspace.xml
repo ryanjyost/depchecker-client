@@ -26,8 +26,8 @@
       <file leaf-file-name="Main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="222">
-              <caret line="501" column="49" lean-forward="true" selection-start-line="501" selection-start-column="49" selection-end-line="501" selection-end-column="49" />
+            <state relative-caret-position="491">
+              <caret line="651" column="21" lean-forward="true" selection-start-line="651" selection-start-column="21" selection-end-line="651" selection-end-column="21" />
               <folding>
                 <element signature="e#1568#1755#0" />
                 <element signature="e#3192#3229#0" />
@@ -98,9 +98,7 @@
                 <element signature="e#15554#15623#0" />
                 <element signature="e#15752#16222#0" />
                 <element signature="e#16008#16149#0" />
-                <element signature="e#17175#17947#0" />
                 <element signature="e#17199#17287#0" />
-                <element signature="e#17343#17900#0" />
                 <element signature="e#17369#17543#0" />
                 <element signature="e#17573#17881#0" />
                 <element signature="e#17735#17859#0" />
@@ -321,7 +319,7 @@
       <workItem from="1546380505257" duration="10000" />
       <workItem from="1547691410822" duration="31167000" />
       <workItem from="1547933413134" duration="28481000" />
-      <workItem from="1548129328795" duration="8596000" />
+      <workItem from="1548129328795" duration="9299000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1548033077694</created>
@@ -344,11 +342,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548202223640</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="correct endpoint">
+      <created>1548210807793</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1548210807793</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115969000" />
+    <option name="totallyTimeSpent" value="116672000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="0" />
@@ -492,9 +497,7 @@
             <element signature="e#15554#15623#0" />
             <element signature="e#15752#16222#0" />
             <element signature="e#16008#16149#0" />
-            <element signature="e#17175#17947#0" />
             <element signature="e#17199#17287#0" />
-            <element signature="e#17343#17900#0" />
             <element signature="e#17369#17543#0" />
             <element signature="e#17573#17881#0" />
             <element signature="e#17735#17859#0" />
@@ -614,9 +617,7 @@
             <element signature="e#15554#15623#0" />
             <element signature="e#15752#16222#0" />
             <element signature="e#16008#16149#0" />
-            <element signature="e#17175#17947#0" />
             <element signature="e#17199#17287#0" />
-            <element signature="e#17343#17900#0" />
             <element signature="e#17369#17543#0" />
             <element signature="e#17573#17881#0" />
             <element signature="e#17735#17859#0" />
@@ -957,8 +958,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="501" column="49" lean-forward="true" selection-start-line="501" selection-start-column="49" selection-end-line="501" selection-end-column="49" />
+        <state relative-caret-position="491">
+          <caret line="651" column="21" lean-forward="true" selection-start-line="651" selection-start-column="21" selection-end-line="651" selection-end-column="21" />
           <folding>
             <element signature="e#1568#1755#0" />
             <element signature="e#3192#3229#0" />
@@ -1029,9 +1030,7 @@
             <element signature="e#15554#15623#0" />
             <element signature="e#15752#16222#0" />
             <element signature="e#16008#16149#0" />
-            <element signature="e#17175#17947#0" />
             <element signature="e#17199#17287#0" />
-            <element signature="e#17343#17900#0" />
             <element signature="e#17369#17543#0" />
             <element signature="e#17573#17881#0" />
             <element signature="e#17735#17859#0" />
