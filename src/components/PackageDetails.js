@@ -14,7 +14,6 @@ const timeAgo = new TimeAgo("en-US");
 export default class PackageDetails extends Component {
   render() {
     const { dep, repo } = this.props;
-    console.log(dep);
 
     const renderDetail = (label, data) => {
       return (

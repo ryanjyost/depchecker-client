@@ -3,7 +3,7 @@ import AceEditor from "react-ace";
 import "brace/mode/json";
 import "brace/theme/monokai";
 import Dropzone from "react-dropzone";
-import { Button, Icon } from "antd";
+import { Button, Icon, Spin, Progress } from "antd";
 import axios from "axios";
 import moment from "moment/moment";
 import _ from "underscore";
@@ -14,7 +14,7 @@ import en from "javascript-time-ago/locale/en";
 import PackageDetails from "./components/PackageDetails";
 import { CSVLink, CSVDownload } from "react-csv";
 import ExampleJSON from "./example.json";
-import { Spin } from "antd";
+import socketIOClient from "socket.io-client";
 
 // Add locale-specific relative date/time formatting rules.
 TimeAgo.addLocale(en);
@@ -31,12 +31,21 @@ export default class Main extends Component {
       packageJSON: {},
       packageJSONString: "...or paste your package.json file contents here...",
       csvData: [],
-      twitterLink: null
+      twitterLink: null,
+      response: false,
+      endpoint: "http://localhost:5000",
+      depBeingAnalyzed: "",
+      depIndex: 0,
+      depsToAnalyze: 0
     };
     this.state = this.initialState;
+    this.socket = socketIOClient(this.initialState.endpoint, {
+      forceNew: true
+    });
 
     this.client = axios.create({
-      baseURL: "http://localhost:5000",
+      baseURL:
+        process.env.REACT_APP_API_URL || "https://depechecker.herokuapp.com",
       timeout: 3 * 60 * 1000,
       headers: { Accept: "application/json" }
     });
@@ -48,6 +57,21 @@ export default class Main extends Component {
       "https://twitter.com/npmjs?ref_src=twsrc%5Etfw",
       "https://twitter.com/JavaScriptDaily?ref_src=twsrc%5Etfw"
     ];
+
+    this.socket.on("update", data =>
+      this.setState({
+        depBeingAnalyzed: data,
+        depIndex: this.state.depIndex + 1
+      })
+    );
+
+    this.socket.on("final", data => {
+      this.setState({
+        dependencies: data,
+        csvData: data,
+        step: 3
+      });
+    });
 
     this.setState({
       twitterLink: links[Math.floor(Math.random() * links.length)]
@@ -78,24 +102,27 @@ export default class Main extends Component {
   }
 
   handleAnalyze() {
-    this.setState({ step: 2 });
-    let formData = new FormData();
-    formData.append("file", this.state.files[0]);
-    formData.append("packageJSON", this.state.packageJSONString);
-
     this.client
-      .post("/analyze", formData)
+      .post("/analyze", { packageJSON: this.state.packageJSON })
       .then(response => {
         this.setState({
-          dependencies: response.data.dependencies,
-          csvData: response.data.csvData,
-          step: 3
+          step: 2,
+          depsToAnalyze: Object.keys(this.state.packageJSON.dependencies).length
         });
-        console.log(response.data.csvData);
       })
       .catch(error => {
         console.log(error);
       });
+  }
+
+  componentWillUnmount() {
+    this.socket.off("update");
+    this.socket.off("final");
+    this.socket.disconnect();
+  }
+
+  pollProcess() {
+    console.log("Polling");
   }
 
   onChooseExample() {
@@ -333,7 +360,7 @@ export default class Main extends Component {
             width: "100%",
             padding: 50,
             margin: "auto",
-            display: "flex",
+            display: step === 2 ? "flex" : "none",
             justifyContent: "center"
           }}
         >
@@ -341,7 +368,7 @@ export default class Main extends Component {
             data-width="500"
             className="twitter-timeline"
             // href={this.state.twitterLink}
-            href={"https://twitter.com/JavaScriptDaily?ref_src=twsrc%5Etfw"}
+            href={this.state.twitterLink}
           >
             Tweets to pass the time
           </a>
@@ -387,6 +414,11 @@ export default class Main extends Component {
     };
 
     const renderSteps = () => {
+      console.log(
+        this.state.depBeingAnalyzed,
+        this.state.depIndex,
+        this.state.depsToAnalyze
+      );
       const baseStyle = {
         flex: 1,
         borderRight: `2px solid ${mainStyles.blackOp(0.1)}`,
@@ -435,6 +467,53 @@ export default class Main extends Component {
         );
       };
 
+      const renderLoadingStep = () => {
+        return (
+          <div
+            style={{
+              ...baseStyle,
+              ...(step === 2 && activeStyle)
+            }}
+          >
+            {renderNumber(2)}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "20px 0px 15px 0px"
+              }}
+            >
+              <div
+                style={{ fontSize: 18, textAlign: "center", lineHeight: 1.2 }}
+              >
+                <strong>Relax</strong>{" "}
+                <span style={{ color: mainStyles.blackOp(0.4) }}>
+                  while DepChecker does its thing
+                </span>
+              </div>
+              {this.state.depBeingAnalyzed && (
+                <div>
+                  {this.state.depBeingAnalyzed} {this.state.depIndex}
+                </div>
+              )}
+              <div style={{ width: "100%" }}>
+                <Progress
+                  format={percent =>
+                    `${this.state.depIndex}/${this.state.depsToAnalyze}`
+                  }
+                  percent={
+                    (this.state.depIndex / this.state.depsToAnalyze) * 100
+                  }
+                  status={step === 2 && "active"}
+                />
+              </div>
+            </div>
+          </div>
+        );
+      };
+
       return (
         <div
           style={{
@@ -449,7 +528,10 @@ export default class Main extends Component {
             <div
               style={{
                 ...baseStyle,
-                ...activeStyle
+                ...{
+                  opacity: 1,
+                  borderRight: `2px solid ${mainStyles.blackOp(0.05)}`
+                }
               }}
             >
               {renderNumber(1, true)}
@@ -525,32 +607,7 @@ export default class Main extends Component {
               </Button>
             </div>
           )}
-          <div
-            style={{
-              ...baseStyle,
-              ...(step === 2 && activeStyle)
-            }}
-          >
-            {renderNumber(2)}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "20px 0px 15px 0px"
-              }}
-            >
-              <span
-                style={{ fontSize: 18, textAlign: "center", lineHeight: 1.2 }}
-              >
-                <strong>Relax</strong>{" "}
-                <span style={{ color: mainStyles.blackOp(0.4) }}>
-                  while DepChecker does its thing
-                </span>
-              </span>
-            </div>
-            {step === 2 && <Spin size={"large"} />}
-          </div>
+          {renderLoadingStep()}
           <div
             style={{
               ...baseStyle,
@@ -608,6 +665,7 @@ export default class Main extends Component {
             display: "flex",
             minWidth: 1000,
             minHeight: 650,
+            height: "calc(100vh - 50px)",
             overflowX: "auto",
             alignItems: "stretch",
             justifyContent: "center",
@@ -624,11 +682,8 @@ export default class Main extends Component {
               backgroundColor: mainStyles.blueOp(0.05)
             }}
           >
-            {step === 3
-              ? renderResults()
-              : step === 2
-                ? renderLoading()
-                : renderUpload()}
+            {step === 3 ? renderResults() : step === 2 ? null : renderUpload()}
+            {renderLoading()}
           </div>
         </div>
       </div>

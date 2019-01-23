@@ -21,6 +21,7 @@
     "react-dropzone": "8.0.0",
     "react-simple-storage": "^1.4.1",
     "react-table": "^6.8.6",
+    "socket.io-client": "^2.2.0",
     "underscore": "^1.9.1"
   },
   "scripts": {
@@ -28,7 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy-staging": "aws s3 sync build/ s3://staging.moviemedium.io --delete",
+    "deploy-staging": "aws s3 sync build/ s3://staging.depchecker.com --delete",
     "deploy-prod-dangerous": "aws s3 sync build/ s3://depchecker.com --delete"
   },
   "eslintConfig": {

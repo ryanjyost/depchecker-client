@@ -20,7 +20,7 @@ code {
  background-color: red !important;
 }
 
-#depResultsList::-webkit-scrollbar { width: 0 !important }
+/*#depResultsList::-webkit-scrollbar { width: 0 !important }*/
 
 #dropzone:focus{
   outline: none !important;
