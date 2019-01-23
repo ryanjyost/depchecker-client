@@ -2,8 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a60a70a7-040d-40a8-8b69-3d80b565a4a2" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/public/android-chrome-192x192.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/android-chrome-512x512.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/apple-touch-icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/browserconfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/depchecker-preview.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/favicon-16x16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/favicon-32x32.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/mstile-150x150.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/safari-pinned-tab.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/site.webmanifest" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,11 +34,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="491">
-              <caret line="651" column="21" lean-forward="true" selection-start-line="651" selection-start-column="21" selection-end-line="651" selection-end-column="21" />
+            <state relative-caret-position="2663">
+              <caret line="544" column="9" selection-start-line="544" selection-start-column="9" selection-end-line="544" selection-end-column="9" />
               <folding>
                 <element signature="e#1568#1755#0" />
                 <element signature="e#3192#3229#0" />
@@ -99,9 +110,6 @@
                 <element signature="e#15752#16222#0" />
                 <element signature="e#16008#16149#0" />
                 <element signature="e#17199#17287#0" />
-                <element signature="e#17369#17543#0" />
-                <element signature="e#17573#17881#0" />
-                <element signature="e#17735#17859#0" />
                 <element signature="e#17999#19454#0" />
                 <element signature="e#18041#18754#0" />
                 <element signature="e#18063#18362#0" />
@@ -121,6 +129,15 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="218">
+              <caret line="33" column="47" lean-forward="true" selection-start-line="33" selection-start-column="47" selection-end-line="33" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
@@ -134,7 +151,7 @@
         <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="12" lean-forward="true" selection-start-column="12" selection-end-column="12" />
+              <caret column="12" selection-start-column="12" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -186,6 +203,7 @@
       <find>heroku</find>
       <find>minHeight</find>
       <find>localhost</find>
+      <find>&lt;Pro</find>
     </findStrings>
     <replaceStrings>
       <replace>view</replace>
@@ -204,12 +222,12 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/example.json" />
         <option value="$PROJECT_DIR$/src/example.json" />
-        <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/index.css" />
         <option value="$PROJECT_DIR$/src/components/PackageDetails.js" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/src/Main.js" />
+        <option value="$PROJECT_DIR$/public/index.html" />
       </list>
     </option>
   </component>
@@ -283,10 +301,11 @@
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
       <recent name="$PROJECT_DIR$/src" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
+    <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
@@ -319,7 +338,7 @@
       <workItem from="1546380505257" duration="10000" />
       <workItem from="1547691410822" duration="31167000" />
       <workItem from="1547933413134" duration="28481000" />
-      <workItem from="1548129328795" duration="9299000" />
+      <workItem from="1548129328795" duration="10379000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1548033077694</created>
@@ -349,11 +368,18 @@
       <option name="project" value="LOCAL" />
       <updated>1548210807793</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="correct endpoint, flow tweaks">
+      <created>1548211522325</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1548211522325</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116672000" />
+    <option name="totallyTimeSpent" value="117752000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="0" />
@@ -391,7 +417,8 @@
     <MESSAGE value="first" />
     <MESSAGE value="handle background process" />
     <MESSAGE value="correct endpoint" />
-    <option name="LAST_COMMIT_MESSAGE" value="correct endpoint" />
+    <MESSAGE value="correct endpoint, flow tweaks" />
+    <option name="LAST_COMMIT_MESSAGE" value="correct endpoint, flow tweaks" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -498,9 +525,6 @@
             <element signature="e#15752#16222#0" />
             <element signature="e#16008#16149#0" />
             <element signature="e#17199#17287#0" />
-            <element signature="e#17369#17543#0" />
-            <element signature="e#17573#17881#0" />
-            <element signature="e#17735#17859#0" />
             <element signature="e#17999#19454#0" />
             <element signature="e#18041#18754#0" />
             <element signature="e#18063#18362#0" />
@@ -618,9 +642,6 @@
             <element signature="e#15752#16222#0" />
             <element signature="e#16008#16149#0" />
             <element signature="e#17199#17287#0" />
-            <element signature="e#17369#17543#0" />
-            <element signature="e#17573#17881#0" />
-            <element signature="e#17735#17859#0" />
             <element signature="e#17999#19454#0" />
             <element signature="e#18041#18754#0" />
             <element signature="e#18063#18362#0" />
@@ -918,13 +939,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -952,14 +966,14 @@
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="12" lean-forward="true" selection-start-column="12" selection-end-column="12" />
+          <caret column="12" selection-start-column="12" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="491">
-          <caret line="651" column="21" lean-forward="true" selection-start-line="651" selection-start-column="21" selection-end-line="651" selection-end-column="21" />
+        <state relative-caret-position="2663">
+          <caret line="544" column="9" selection-start-line="544" selection-start-column="9" selection-end-line="544" selection-end-column="9" />
           <folding>
             <element signature="e#1568#1755#0" />
             <element signature="e#3192#3229#0" />
@@ -1031,9 +1045,6 @@
             <element signature="e#15752#16222#0" />
             <element signature="e#16008#16149#0" />
             <element signature="e#17199#17287#0" />
-            <element signature="e#17369#17543#0" />
-            <element signature="e#17573#17881#0" />
-            <element signature="e#17735#17859#0" />
             <element signature="e#17999#19454#0" />
             <element signature="e#18041#18754#0" />
             <element signature="e#18063#18362#0" />
@@ -1049,6 +1060,13 @@
             <element signature="e#19123#19286#0" />
             <element signature="e#19469#19499#0" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="218">
+          <caret line="33" column="47" lean-forward="true" selection-start-line="33" selection-start-column="47" selection-end-line="33" selection-end-column="47" />
         </state>
       </provider>
     </entry>
