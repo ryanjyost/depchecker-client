@@ -45,7 +45,7 @@ export default class Main extends Component {
 
     this.client = axios.create({
       baseURL:
-        process.env.REACT_APP_API_URL || "https://depechecker.herokuapp.com",
+        process.env.REACT_APP_API_URL || "https://depchecker-api.herokuapp.com",
       timeout: 3 * 60 * 1000,
       headers: { Accept: "application/json" }
     });
