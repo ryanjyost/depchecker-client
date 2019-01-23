@@ -39,9 +39,12 @@ export default class Main extends Component {
       depsToAnalyze: 0
     };
     this.state = this.initialState;
-    this.socket = socketIOClient(this.initialState.endpoint, {
-      forceNew: true
-    });
+    this.socket = socketIOClient(
+      process.env.REACT_APP_API_URL || "https://depchecker-api.herokuapp.com",
+      {
+        forceNew: true
+      }
+    );
 
     this.client = axios.create({
       baseURL:
@@ -58,12 +61,13 @@ export default class Main extends Component {
       "https://twitter.com/JavaScriptDaily?ref_src=twsrc%5Etfw"
     ];
 
-    this.socket.on("update", data =>
+    this.socket.on("update", data => {
       this.setState({
         depBeingAnalyzed: data,
         depIndex: this.state.depIndex + 1
-      })
-    );
+      });
+      console.log("SOCKET", data);
+    });
 
     this.socket.on("final", data => {
       this.setState({
@@ -414,11 +418,11 @@ export default class Main extends Component {
     };
 
     const renderSteps = () => {
-      console.log(
-        this.state.depBeingAnalyzed,
-        this.state.depIndex,
-        this.state.depsToAnalyze
-      );
+      // console.log(
+      //   this.state.depBeingAnalyzed,
+      //   this.state.depIndex,
+      //   this.state.depsToAnalyze
+      // );
       const baseStyle = {
         flex: 1,
         borderRight: `2px solid ${mainStyles.blackOp(0.1)}`,
@@ -486,7 +490,12 @@ export default class Main extends Component {
               }}
             >
               <div
-                style={{ fontSize: 18, textAlign: "center", lineHeight: 1.2 }}
+                style={{
+                  fontSize: 18,
+                  textAlign: "center",
+                  lineHeight: 1.2,
+                  marginBottom: 10
+                }}
               >
                 <strong>Relax</strong>{" "}
                 <span style={{ color: mainStyles.blackOp(0.4) }}>
@@ -494,8 +503,8 @@ export default class Main extends Component {
                 </span>
               </div>
               {this.state.depBeingAnalyzed && (
-                <div>
-                  {this.state.depBeingAnalyzed} {this.state.depIndex}
+                <div style={{ marginTop: 10 }}>
+                  Analyzing <strong>{this.state.depBeingAnalyzed}</strong>...
                 </div>
               )}
               <div style={{ width: "100%" }}>
@@ -506,7 +515,7 @@ export default class Main extends Component {
                   percent={
                     (this.state.depIndex / this.state.depsToAnalyze) * 100
                   }
-                  status={step === 2 && "active"}
+                  status={step === 2 ? "active" : "normal"}
                 />
               </div>
             </div>

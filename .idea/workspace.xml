@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a60a70a7-040d-40a8-8b69-3d80b565a4a2" name="Default" comment="first">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="a60a70a7-040d-40a8-8b69-3d80b565a4a2" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/PackageDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/PackageDetails.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,8 +26,8 @@
       <file leaf-file-name="Main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="670" column="35" selection-start-line="670" selection-start-column="35" selection-end-line="670" selection-end-column="35" />
+            <state relative-caret-position="222">
+              <caret line="501" column="49" lean-forward="true" selection-start-line="501" selection-start-column="49" selection-end-line="501" selection-end-column="49" />
               <folding>
                 <element signature="e#1568#1755#0" />
                 <element signature="e#3192#3229#0" />
@@ -110,6 +104,7 @@
                 <element signature="e#17369#17543#0" />
                 <element signature="e#17573#17881#0" />
                 <element signature="e#17735#17859#0" />
+                <element signature="e#17999#19454#0" />
                 <element signature="e#18041#18754#0" />
                 <element signature="e#18063#18362#0" />
                 <element signature="e#18462#18521#0" />
@@ -118,6 +113,8 @@
                 <element signature="e#18631#18644#0" />
                 <element signature="e#18657#18715#0" />
                 <element signature="e#18728#18738#0" />
+                <element signature="e#18763#19441#0" />
+                <element signature="e#18785#19051#0" />
                 <element signature="e#19099#19426#0" />
                 <element signature="e#19123#19286#0" />
                 <element signature="e#19469#19499#0" />
@@ -126,11 +123,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="540">
+              <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name=".env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="28" selection-start-column="28" selection-end-column="28" />
+              <caret column="12" lean-forward="true" selection-start-column="12" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -175,11 +181,13 @@
       <find>cloud</find>
       <find>30px</find>
       <find>analyze</find>
-      <find>localhost</find>
       <find>report a</find>
       <find>start</find>
       <find>twitter</find>
       <find>100vh</find>
+      <find>heroku</find>
+      <find>minHeight</find>
+      <find>localhost</find>
     </findStrings>
     <replaceStrings>
       <replace>view</replace>
@@ -201,8 +209,8 @@
         <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/index.css" />
-        <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/src/components/PackageDetails.js" />
+        <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/src/Main.js" />
       </list>
     </option>
@@ -313,7 +321,7 @@
       <workItem from="1546380505257" duration="10000" />
       <workItem from="1547691410822" duration="31167000" />
       <workItem from="1547933413134" duration="28481000" />
-      <workItem from="1548129328795" duration="5604000" />
+      <workItem from="1548129328795" duration="8596000" />
     </task>
     <task id="LOCAL-00001" summary="first">
       <created>1548033077694</created>
@@ -322,11 +330,25 @@
       <option name="project" value="LOCAL" />
       <updated>1548033077694</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="handle background process">
+      <created>1548201668105</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1548201668105</updated>
+    </task>
+    <task id="LOCAL-00003" summary="correct endpoint">
+      <created>1548202223640</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1548202223640</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="112977000" />
+    <option name="totallyTimeSpent" value="115969000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="0" />
@@ -339,9 +361,10 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32831326" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.27786753" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.27786753" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -351,7 +374,6 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -362,7 +384,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first" />
-    <option name="LAST_COMMIT_MESSAGE" value="first" />
+    <MESSAGE value="handle background process" />
+    <MESSAGE value="correct endpoint" />
+    <option name="LAST_COMMIT_MESSAGE" value="correct endpoint" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -474,6 +498,7 @@
             <element signature="e#17369#17543#0" />
             <element signature="e#17573#17881#0" />
             <element signature="e#17735#17859#0" />
+            <element signature="e#17999#19454#0" />
             <element signature="e#18041#18754#0" />
             <element signature="e#18063#18362#0" />
             <element signature="e#18462#18521#0" />
@@ -482,6 +507,8 @@
             <element signature="e#18631#18644#0" />
             <element signature="e#18657#18715#0" />
             <element signature="e#18728#18738#0" />
+            <element signature="e#18763#19441#0" />
+            <element signature="e#18785#19051#0" />
             <element signature="e#19099#19426#0" />
             <element signature="e#19123#19286#0" />
             <element signature="e#19469#19499#0" />
@@ -593,6 +620,7 @@
             <element signature="e#17369#17543#0" />
             <element signature="e#17573#17881#0" />
             <element signature="e#17735#17859#0" />
+            <element signature="e#17999#19454#0" />
             <element signature="e#18041#18754#0" />
             <element signature="e#18063#18362#0" />
             <element signature="e#18462#18521#0" />
@@ -601,6 +629,8 @@
             <element signature="e#18631#18644#0" />
             <element signature="e#18657#18715#0" />
             <element signature="e#18728#18738#0" />
+            <element signature="e#18763#19441#0" />
+            <element signature="e#18785#19051#0" />
             <element signature="e#19099#19426#0" />
             <element signature="e#19123#19286#0" />
             <element signature="e#19469#19499#0" />
@@ -612,6 +642,72 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="960">
           <caret line="48" column="5" lean-forward="true" selection-start-line="43" selection-start-column="4" selection-end-line="48" selection-end-column="5" />
+          <folding>
+            <element signature="n#!!block;n#constructor#0;n#App#0" />
+            <element signature="e#721#844#0" />
+            <element signature="e#865#1027#0" />
+            <element signature="n#!!block;n#componentDidMount#0;n#App#0" />
+            <element signature="e#1190#1320#0" />
+            <element signature="e#1271#1314#0" />
+            <element signature="n#!!block;n#bitbucketLogin#0;n#App#0" />
+            <element signature="e#1532#1610#0" />
+            <element signature="n#!!block;n#authBitbucket#0;n#App#0" />
+            <element signature="e#1784#1812#0" />
+            <element signature="e#1838#2047#0" />
+            <element signature="e#1862#1959#0" />
+            <element signature="e#2071#2108#0" />
+            <element signature="n#!!block;n#getRepos#0;n#App#0" />
+            <element signature="e#2199#2256#0" />
+            <element signature="e#2282#2394#0" />
+            <element signature="e#2306#2384#0" />
+            <element signature="e#2418#2455#0" />
+            <element signature="n#!!block;n#analyzeRepos#0;n#App#0" />
+            <element signature="e#2603#2672#0" />
+            <element signature="e#2734#2841#0" />
+            <element signature="e#2867#2999#0" />
+            <element signature="e#3023#3060#0" />
+            <element signature="n#!!block;n#logout#0;n#App#0" />
+            <element signature="e#3356#8104#0" />
+            <element signature="e#3380#7517#0" />
+            <element signature="e#3390#3539#0" />
+            <element signature="e#3471#3529#0" />
+            <element signature="e#3549#6172#0" />
+            <element signature="e#3712#6162#0" />
+            <element signature="e#4006#4058#0" />
+            <element signature="e#4106#4216#0" />
+            <element signature="e#4266#4508#0" />
+            <element signature="e#4546#4901#0" />
+            <element signature="e#5092#5142#0" />
+            <element signature="e#5148#6109#0" />
+            <element signature="e#5194#5470#0" />
+            <element signature="e#5506#5782#0" />
+            <element signature="e#5818#6095#0" />
+            <element signature="e#6182#7086#0" />
+            <element signature="e#6341#7076#0" />
+            <element signature="e#6574#6626#0" />
+            <element signature="e#6816#7049#0" />
+            <element signature="e#7096#7509#0" />
+            <element signature="e#7226#7499#0" />
+            <element signature="e#7263#7472#0" />
+            <element signature="e#7543#8089#0" />
+            <element signature="e#7731#7916#0" />
+            <element signature="e#8111#10303#0" />
+            <element signature="e#8171#8343#0" />
+            <element signature="e#8414#9468#0" />
+            <element signature="e#8432#8540#0" />
+            <element signature="e#8553#9291#0" />
+            <element signature="e#8704#9262#0" />
+            <element signature="e#8761#9239#0" />
+            <element signature="e#8810#9132#0" />
+            <element signature="e#9304#9451#0" />
+            <element signature="e#9324#9432#0" />
+            <element signature="e#9608#10029#0" />
+            <element signature="e#9656#10010#0" />
+            <element signature="e#9697#9979#0" />
+            <element signature="e#10111#10241#0" />
+            <element signature="e#10344#10504#0" />
+            <element signature="e#10523#10558#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -731,6 +827,72 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="376">
           <caret line="367" column="6" lean-forward="true" selection-start-line="367" selection-start-column="6" selection-end-line="367" selection-end-column="6" />
+          <folding>
+            <element signature="n#!!block;n#constructor#0;n#App#0" />
+            <element signature="e#721#844#0" />
+            <element signature="e#865#1027#0" />
+            <element signature="n#!!block;n#componentDidMount#0;n#App#0" />
+            <element signature="e#1190#1320#0" />
+            <element signature="e#1271#1314#0" />
+            <element signature="n#!!block;n#bitbucketLogin#0;n#App#0" />
+            <element signature="e#1532#1610#0" />
+            <element signature="n#!!block;n#authBitbucket#0;n#App#0" />
+            <element signature="e#1784#1812#0" />
+            <element signature="e#1838#2047#0" />
+            <element signature="e#1862#1959#0" />
+            <element signature="e#2071#2108#0" />
+            <element signature="n#!!block;n#getRepos#0;n#App#0" />
+            <element signature="e#2199#2256#0" />
+            <element signature="e#2282#2394#0" />
+            <element signature="e#2306#2384#0" />
+            <element signature="e#2418#2455#0" />
+            <element signature="n#!!block;n#analyzeRepos#0;n#App#0" />
+            <element signature="e#2603#2672#0" />
+            <element signature="e#2734#2841#0" />
+            <element signature="e#2867#2999#0" />
+            <element signature="e#3023#3060#0" />
+            <element signature="n#!!block;n#logout#0;n#App#0" />
+            <element signature="e#3356#8104#0" />
+            <element signature="e#3380#7517#0" />
+            <element signature="e#3390#3539#0" />
+            <element signature="e#3471#3529#0" />
+            <element signature="e#3549#6172#0" />
+            <element signature="e#3712#6162#0" />
+            <element signature="e#4006#4058#0" />
+            <element signature="e#4106#4216#0" />
+            <element signature="e#4266#4508#0" />
+            <element signature="e#4546#4901#0" />
+            <element signature="e#5092#5142#0" />
+            <element signature="e#5148#6109#0" />
+            <element signature="e#5194#5470#0" />
+            <element signature="e#5506#5782#0" />
+            <element signature="e#5818#6095#0" />
+            <element signature="e#6182#7086#0" />
+            <element signature="e#6341#7076#0" />
+            <element signature="e#6574#6626#0" />
+            <element signature="e#6816#7049#0" />
+            <element signature="e#7096#7509#0" />
+            <element signature="e#7226#7499#0" />
+            <element signature="e#7263#7472#0" />
+            <element signature="e#7543#8089#0" />
+            <element signature="e#7731#7916#0" />
+            <element signature="e#8111#10303#0" />
+            <element signature="e#8171#8343#0" />
+            <element signature="e#8414#9468#0" />
+            <element signature="e#8432#8540#0" />
+            <element signature="e#8553#9291#0" />
+            <element signature="e#8704#9262#0" />
+            <element signature="e#8761#9239#0" />
+            <element signature="e#8810#9132#0" />
+            <element signature="e#9304#9451#0" />
+            <element signature="e#9324#9432#0" />
+            <element signature="e#9608#10029#0" />
+            <element signature="e#9656#10010#0" />
+            <element signature="e#9697#9979#0" />
+            <element signature="e#10111#10241#0" />
+            <element signature="e#10344#10504#0" />
+            <element signature="e#10523#10558#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -762,24 +924,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="13" column="21" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/index.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
           <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="28" selection-start-column="28" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -793,10 +941,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="12" lean-forward="true" selection-start-column="12" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="670" column="35" selection-start-line="670" selection-start-column="35" selection-end-line="670" selection-end-column="35" />
+        <state relative-caret-position="222">
+          <caret line="501" column="49" lean-forward="true" selection-start-line="501" selection-start-column="49" selection-end-line="501" selection-end-column="49" />
           <folding>
             <element signature="e#1568#1755#0" />
             <element signature="e#3192#3229#0" />
@@ -873,6 +1035,7 @@
             <element signature="e#17369#17543#0" />
             <element signature="e#17573#17881#0" />
             <element signature="e#17735#17859#0" />
+            <element signature="e#17999#19454#0" />
             <element signature="e#18041#18754#0" />
             <element signature="e#18063#18362#0" />
             <element signature="e#18462#18521#0" />
@@ -881,6 +1044,8 @@
             <element signature="e#18631#18644#0" />
             <element signature="e#18657#18715#0" />
             <element signature="e#18728#18738#0" />
+            <element signature="e#18763#19441#0" />
+            <element signature="e#18785#19051#0" />
             <element signature="e#19099#19426#0" />
             <element signature="e#19123#19286#0" />
             <element signature="e#19469#19499#0" />
