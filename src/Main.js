@@ -15,6 +15,7 @@ import PackageDetails from "./components/PackageDetails";
 import { CSVLink, CSVDownload } from "react-csv";
 import ExampleJSON from "./example.json";
 import socketIOClient from "socket.io-client";
+import Analyze from "./components/Analyze";
 
 // Add locale-specific relative date/time formatting rules.
 TimeAgo.addLocale(en);
@@ -61,12 +62,18 @@ export default class Main extends Component {
       "https://twitter.com/JavaScriptDaily?ref_src=twsrc%5Etfw"
     ];
 
+    this.socket.on("socketId", data => {
+      this.setState({
+        socketId: data
+      });
+    });
+
     this.socket.on("update", data => {
+      console.log("UPDATE", data);
       this.setState({
         depBeingAnalyzed: data,
         depIndex: this.state.depIndex + 1
       });
-      console.log("SOCKET", data);
     });
 
     this.socket.on("final", data => {
@@ -106,17 +113,25 @@ export default class Main extends Component {
   }
 
   handleAnalyze() {
-    this.client
-      .post("/analyze", { packageJSON: this.state.packageJSON })
-      .then(response => {
-        this.setState({
-          step: 2,
-          depsToAnalyze: Object.keys(this.state.packageJSON.dependencies).length
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.socket.emit("analyze", this.state.packageJSON);
+    this.setState({
+      step: 2,
+      depsToAnalyze: Object.keys(this.state.packageJSON.dependencies).length
+    });
+    // this.client
+    //   .post("/analyze", {
+    //     packageJSON: this.state.packageJSON,
+    //     socketId: this.state.socketId
+    //   })
+    //   .then(response => {
+    //     this.setState({
+    //       step: 2,
+    //       depsToAnalyze: Object.keys(this.state.packageJSON.dependencies).length
+    //     });
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
   }
 
   componentWillUnmount() {
@@ -137,7 +152,10 @@ export default class Main extends Component {
   }
 
   handleStartOver() {
-    this.setState(this.initialState);
+    this.setState({
+      ...this.initialState,
+      ...{ socketId: this.state.socketId }
+    });
   }
 
   render() {
@@ -674,12 +692,24 @@ export default class Main extends Component {
           }}
         >
           <div style={{ fontSize: 20, fontWeight: "bold" }}>DepChecker</div>
-          {/*<div style={{ display: "flex", alignItems: "center" }}>*/}
-          {/*<Button size={"small"} style={{ marginRight: 10 }}>*/}
-          {/*Report a bug*/}
-          {/*</Button>*/}
-          {/*<Button size={"small"}>Make a feature request</Button>*/}
-          {/*</div>*/}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {/*<Button size={"small"} style={{ marginRight: 10 }}>*/}
+            {/*Report a bug*/}
+            {/*</Button>*/}
+            <div style={{ marginRight: 5, color: "#a4a4a4" }}>
+              Bug? Question? Feature request?
+            </div>
+            <a href={"mailto:ryanjyost@gmail.com"}>Get in touch</a>
+          </div>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {/*<Button size={"small"} style={{ marginRight: 10 }}>*/}
+            {/*Report a bug*/}
+            {/*</Button>*/}
+            <div style={{ marginRight: 5, color: "#a4a4a4" }}>Made by</div>
+            <a href={"https://ryanjyost.com"} target={"_blank"}>
+              Ryan
+            </a>
+          </div>
         </div>
         <div
           style={{
