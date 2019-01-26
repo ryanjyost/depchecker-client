@@ -699,7 +699,9 @@ export default class Main extends Component {
             <div style={{ marginRight: 5, color: "#a4a4a4" }}>
               Bug? Question? Feature request?
             </div>
-            <a href={"mailto:ryanjyost@gmail.com"}>Get in touch</a>
+            <a href={"mailto:ryanjyost@gmail.com?subject=DepChecker"}>
+              Get in touch
+            </a>
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             {/*<Button size={"small"} style={{ marginRight: 10 }}>*/}
