@@ -217,17 +217,17 @@ export default class Main extends Component {
         <div
           style={{
             padding: "20px 50px",
-            width: 800
+            width: 700,
+            margin: "auto"
             // backgroundColor: mainStyles.blueOp(0.05)
           }}
         >
           <div
             style={{
               display: "flex",
-              // flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: 20
+              marginBottom: 40
             }}
           >
             <div
@@ -500,15 +500,16 @@ export default class Main extends Component {
           data={this.state.csvData}
           headers={headers}
           filename={`${this.state.packageJSON.name}_dependencies`}
-          style={{ display: "flex", justifyContent: "center" }}
+          style={{
+            display: "flex",
+            justifyContent: "center"
+          }}
         >
           <Button
-            disabled={step !== 3}
-            size={"large"}
             style={{
               margin: "auto",
-              backgroundColor: step === 3 ? "#217346" : null,
-              color: step === 3 ? "#fff" : null,
+              border: "1px solid #217346",
+              color: "#217346",
               fontWeight: "bold"
             }}
           >
@@ -792,6 +793,7 @@ export default class Main extends Component {
 
       const renderNumber = (num, name, opaque) => {
         const isComplete = step > num;
+        const icons = ["cloud-upload", "coffee", "table"];
         return (
           <div
             style={{
@@ -828,7 +830,7 @@ export default class Main extends Component {
                 style={{
                   fontSize: 20
                 }}
-                type={isComplete ? "check" : "cloud-upload"}
+                type={isComplete ? "check" : icons[num - 1]}
               />
             </div>
             {stepName(name, step >= num)}
@@ -862,7 +864,6 @@ export default class Main extends Component {
             justifyContent: "center",
             alignItems: "center",
             padding: "40px 20px 10px 20px",
-            marginBottom: 20,
             overflowX: "hidden",
             width: "100%",
             zIndex: 10
@@ -886,10 +887,17 @@ export default class Main extends Component {
     };
 
     return (
-      <div style={{ minWidth: 800, backgroundColor: mainStyles.blueOp(0.03) }}>
+      <div
+        style={{
+          minWidth: 800,
+          width: "100%",
+          backgroundColor: mainStyles.blueOp(0.03)
+        }}
+      >
         <div
           style={{
-            width: "100vw",
+            minWidth: 800,
+            width: "100%",
             height: "100px",
             position: "absolute",
             backgroundColor: "#fff",
@@ -933,23 +941,45 @@ export default class Main extends Component {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-
             margin: "auto"
           }}
         >
           {renderSteps()}
           <div
             style={{
-              width: "94%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center"
+              width: "94%"
             }}
           >
             {step === 1 && renderUpload()}
             {step === 2 && renderLoading()}
             {step === 3 && (
-              <Results packageJSON={packageJSON} dependencies={dependencies} />
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    marginBottom: 10,
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <Button
+                    className={"pulsingButton"}
+                    onClick={() => this.handleStartOver()}
+                    type="primary"
+                    style={{
+                      fontWeight: "bold",
+                      maxWidth: "300px"
+                    }}
+                  >
+                    Start Over
+                  </Button>
+                  {renderCSVLink()}
+                </div>
+                <Results
+                  packageJSON={packageJSON}
+                  dependencies={dependencies}
+                />
+              </div>
             )}
           </div>
         </div>
