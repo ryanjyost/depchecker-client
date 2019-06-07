@@ -376,7 +376,6 @@ class App extends Component {
           justifyContent: "center"
         }}
       >
-        {/*<SimpleStorage parent={this} />*/}
         {content}
       </div>
     );

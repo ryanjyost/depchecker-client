@@ -56,3 +56,11 @@ code {
   50% { background-color: rgba(24, 144, 255,1); -webkit-box-shadow: 0 0 10px rgba(24, 144, 255,0.8); }
   100% { background-color: rgba(24, 144, 255,0.9); -webkit-box-shadow: 0 0 1px rgba(24, 144, 255,0.5);  }
 }
+
+.-header{
+  background-color: rgba(24, 144, 255, 0.9);
+  color: #fff;
+  font-weight:bold;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
