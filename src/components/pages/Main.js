@@ -248,6 +248,7 @@ export default class Main extends Component {
             </div>
 
             <Button
+              id={"generateYourReport"}
               className={disableAnalyze ? null : "pulsingButton"}
               onClick={() => this.handleAnalyze()}
               type="primary"
@@ -369,6 +370,7 @@ export default class Main extends Component {
                     </div>
                     {isDragActive || hasFile ? null : (
                       <Button
+                        id={"browseFiles"}
                         size={"small"}
                         className={"pulsingButton"}
                         type="primary"
@@ -503,6 +505,7 @@ export default class Main extends Component {
           }}
         >
           <Button
+            id={"downloadCSV"}
             style={{
               margin: "auto",
               border: "1px solid #217346",
@@ -648,6 +651,7 @@ export default class Main extends Component {
               {renderNumber(1, true)}
 
               <Button
+                id={"startOver"}
                 className={"pulsingButton"}
                 onClick={() => this.handleStartOver()}
                 type="primary"

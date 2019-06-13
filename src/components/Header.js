@@ -50,7 +50,11 @@ const Header = ({ styles, showContactText, whiteBackground }) => {
     return (
       <div style={{ display: "flex", alignItems: "center" }}>
         <div style={{ marginRight: 5, color: "#a4a4a4" }}>Made by</div>
-        <a href={"https://ryanjyost.com"} target={"_blank"}>
+        <a
+          id={"ryanPersonalSite"}
+          href={"https://ryanjyost.com"}
+          target={"_blank"}
+        >
           Ryan
         </a>
         <span style={{ padding: "0px 5px", color: styles.blackOp(0.2) }}>
@@ -61,7 +65,9 @@ const Header = ({ styles, showContactText, whiteBackground }) => {
             Bug?&nbsp;&nbsp;Question?&nbsp;&nbsp;Feature request?&nbsp;
           </div>
         )}
-        <a href={"mailto:ryan@depchecker.com"}>Contact</a>
+        <a id={"contactFromHeader"} href={"mailto:ryan@depchecker.com"}>
+          Contact
+        </a>
       </div>
     );
   };

@@ -55,6 +55,7 @@ export default class Landing extends Component {
             </h2>
             <Link to={ROUTES.APP}>
               <Button
+                id={`ctaTopLanding`}
                 size={"large"}
                 type={"primary"}
                 className={"pulsingButton"}
@@ -570,7 +571,12 @@ export default class Landing extends Component {
             </span>
           </SectionHeader>
           <Link to={ROUTES.APP}>
-            <Button size={"large"} type={"default"} style={{ marginTop: 20 }}>
+            <Button
+              id={`ctaBottomLanding`}
+              size={"large"}
+              type={"default"}
+              style={{ marginTop: 20 }}
+            >
               <span style={{ paddingRight: 8, fontWeight: "bold" }}>
                 Analyze a <code>package.json</code>
               </span>{" "}
