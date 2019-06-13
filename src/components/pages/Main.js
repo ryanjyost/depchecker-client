@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import AceEditor from "react-ace";
-import Results from "./components/Results";
+import Results from "../Results";
 import "brace/mode/json";
 import "brace/theme/monokai";
 import Dropzone from "react-dropzone";
-import { Button, Icon, Spin, Progress } from "antd";
+import { Button, Icon, Progress } from "antd";
 import axios from "axios";
 
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import PackageDetails from "./components/PackageDetails";
 import { CSVLink, CSVDownload } from "react-csv";
-import ExampleJSON from "./example.json";
+import ExampleJSON from "../../example.json";
 import socketIOClient from "socket.io-client";
-import Analyze from "./components/Analyze";
+import Header from "../Header";
+import { Steps } from "antd";
+const { Step } = Steps;
 
 // Add locale-specific relative date/time formatting rules.
 TimeAgo.addLocale(en);
@@ -29,7 +30,7 @@ export default class Main extends Component {
       dependencies: [],
       packageJSON: {},
       packageJSONString:
-        "...or simple paste your package.json file contents here...",
+        "...or simply paste your package.json file contents here...",
       csvData: [],
       twitterLink: null,
       response: false,
@@ -160,20 +161,7 @@ export default class Main extends Component {
 
   render() {
     const { dependencies, files, packageJSON, step } = this.state;
-
-    const mainStyles = {
-      borderRadius: 3,
-      backgroundColor: "#f0f2f5",
-      white: "#fff",
-      whiteOp: opacity => `rgba(255, 255, 255, ${opacity})`,
-      blackOp: opacity => `rgba(0, 0, 0, ${opacity})`,
-      blue: "rgba(24, 144, 255, 1)",
-      blueOp: opacity => `rgba(24, 144, 255, ${opacity})`,
-      red: "rgba(245, 34, 45, 1)",
-      redOp: opacity => `rgba(245, 34, 45, ${opacity})`,
-      green: "rgba(82, 196, 26, 1)",
-      greenOp: opacity => `rgba(82, 196, 26, ${opacity})`
-    };
+    const mainStyles = this.props.styles;
 
     const disableAnalyze =
       !("dependencies" in this.state.packageJSON) || step !== 1;
@@ -181,7 +169,7 @@ export default class Main extends Component {
     const renderUpload = () => {
       const baseStyle = {
         borderWidth: 2,
-        borderColor: "rgba(0,0,0,0.05)",
+        borderColor: mainStyles.blackOp(0.1),
         borderStyle: "dashed",
         borderRadius: 3,
         backgroundColor: "#fff",
@@ -216,7 +204,7 @@ export default class Main extends Component {
       return (
         <div
           style={{
-            padding: "20px 50px",
+            padding: "60px 50px 20px 50px",
             width: 700,
             margin: "auto"
             // backgroundColor: mainStyles.blueOp(0.05)
@@ -242,7 +230,8 @@ export default class Main extends Component {
                   fontSize: 18,
                   textAlign: "center",
                   display: "flex",
-                  alignItems: "center"
+                  alignItems: "center",
+                  color: mainStyles.black
                 }}
               >
                 <strong>Upload</strong>{" "}
@@ -356,7 +345,7 @@ export default class Main extends Component {
                         isDragActive
                           ? "fire"
                           : hasFile
-                            ? "like"
+                            ? "check-circle"
                             : "cloud-upload"
                       }
                     />
@@ -403,9 +392,17 @@ export default class Main extends Component {
                 this.setState({ files: [] });
               }
 
+              let parsedJSON = null;
+
+              try {
+                parsedJSON = JSON.parse(val);
+              } catch (e) {
+                parsedJSON = {};
+              }
+
               this.setState({
                 packageJSONString: val,
-                packageJSON: val.length ? JSON.parse(val) : {}
+                packageJSON: parsedJSON
               });
             }}
             name="aceEditor"
@@ -755,86 +752,59 @@ export default class Main extends Component {
     };
 
     const renderSteps = () => {
-      const baseStyle = {
-        flex: 1,
-        borderRight: `2px solid ${mainStyles.blackOp(0.1)}`,
-        backgroundColor: mainStyles.whiteOp(1),
-        opacity: 0.3,
-        padding: 30,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        position: "relative"
-      };
-      const activeStyle = {
-        backgroundColor: mainStyles.blueOp(0.05),
-        opacity: 1,
-        borderRight: `0px solid transparent`,
-        borderTop: step === 1 ? null : `1px solid ${mainStyles.blackOp(0.05)}`,
-        borderBottom: `1px solid ${mainStyles.blackOp(0.05)}`
-      };
-      const disableAnalyze =
-        !("dependencies" in this.state.packageJSON) || step !== 1;
-
-      const stepName = (name, isPastOrCurrent) => {
+      const stepName = (name, isPastOrCurrent, isCurrent) => {
         return (
-          <h5
+          <p
             style={{
-              paddingTop: 3,
-              color: isPastOrCurrent
-                ? mainStyles.blackOp(0.6)
-                : mainStyles.blackOp(0.2)
+              marginBottom: 0,
+              fontWeight: isCurrent ? "bold" : "normal",
+              textAlign: "center",
+              color: isCurrent
+                ? mainStyles.blackOp(1)
+                : isPastOrCurrent
+                  ? mainStyles.blackOp(0.6)
+                  : mainStyles.blackOp(0.2)
             }}
           >
             {name}
-          </h5>
+          </p>
         );
       };
 
       const renderNumber = (num, name, opaque) => {
         const isComplete = step > num;
+        const isFuture = step < num;
+        const isCurrent = step === num;
         const icons = ["cloud-upload", "coffee", "table"];
         return (
           <div
+            onClick={() => {
+              if (num === 1 && step === 3) {
+                this.handleStartOver();
+              }
+            }}
             style={{
-              width: "100%",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              flexDirection: "column",
-              position: "relative"
+              position: "relative",
+              margin: "0px 10px",
+              cursor: num === 1 ? "pointer" : "default"
             }}
           >
-            <div
+            <Icon
               style={{
-                width: 36,
-                height: 36,
-                borderRadius: 50,
-                zIndex: 1,
-                backgroundColor:
-                  num > step
-                    ? "#e5e5e5"
-                    : step > num
-                      ? "#52c41a"
-                      : mainStyles.blueOp(1),
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 16,
-                fontWeight: "bold",
-                opacity: opaque ? 0.3 : 1
+                fontSize: 34,
+                marginRight: 6,
+                color:
+                  isComplete || isCurrent
+                    ? mainStyles.blue
+                    : mainStyles.blackOp(0.1)
               }}
-            >
-              <Icon
-                style={{
-                  fontSize: 20
-                }}
-                type={isComplete ? "check" : icons[num - 1]}
-              />
-            </div>
-            {stepName(name, step >= num)}
-            {num === 2 && line()}
+              type={icons[num - 1]}
+            />
+
+            {stepName(name, step >= num, step === num)}
           </div>
         );
       };
@@ -843,14 +813,12 @@ export default class Main extends Component {
         return (
           <div
             style={{
-              width: "200vw",
-              height: 2,
-              position: "absolute",
-              top: 18,
-              left: "-50vw",
+              width: 100,
+              borderRadius: 5,
+              height: 1,
               backgroundColor: isBlue
                 ? mainStyles.blueOp(1)
-                : mainStyles.blackOp(0.04)
+                : mainStyles.blackOp(0.07)
             }}
           />
         );
@@ -863,7 +831,7 @@ export default class Main extends Component {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            padding: "40px 20px 10px 20px",
+            padding: "20px 20px 40px 20px",
             overflowX: "hidden",
             width: "100%",
             zIndex: 10
@@ -875,12 +843,15 @@ export default class Main extends Component {
               justifyContent: "center",
               alignItems: "center",
               position: "relative",
-              width: 340
+              width: 600,
+              maxWidth: "100%"
             }}
           >
             {renderNumber(1, "Upload")}
+            {line(step > 1)}
             {renderNumber(2, "Relax")}
-            {renderNumber(3, "Analyze & Export")}
+            {line(step === 3)}
+            {renderNumber(3, "Analyze")}
           </div>
         </div>
       );
@@ -889,53 +860,11 @@ export default class Main extends Component {
     return (
       <div
         style={{
-          minWidth: 800,
           width: "100%",
-          backgroundColor: mainStyles.blueOp(0.03)
+          paddingBottom: 100
         }}
       >
-        <div
-          style={{
-            minWidth: 800,
-            width: "100%",
-            height: "100px",
-            position: "absolute",
-            backgroundColor: "#fff",
-            top: 0,
-            zIndex: 0
-          }}
-        />
-        <div
-          style={{
-            height: 40,
-            width: "100%",
-            // borderBottom: `2px solid ${mainStyles.blackOp(0.05)}`,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0px 40px",
-            opacity: 0.99
-          }}
-        >
-          <div style={{ fontSize: 16, fontWeight: "bold" }}>DepChecker</div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ marginRight: 5, color: "#a4a4a4" }}>
-              Bug? Question? Feature request?
-            </div>
-            <a href={"mailto:ryanjyost@gmail.com?subject=DepChecker"}>
-              Get in touch
-            </a>
-          </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
-            {/*<Button size={"small"} style={{ marginRight: 10 }}>*/}
-            {/*Report a bug*/}
-            {/*</Button>*/}
-            <div style={{ marginRight: 5, color: "#a4a4a4" }}>Made by</div>
-            <a href={"https://ryanjyost.com"} target={"_blank"}>
-              Ryan
-            </a>
-          </div>
-        </div>
+        <Header styles={mainStyles} showContactText />
         <div
           style={{
             display: "flex",
