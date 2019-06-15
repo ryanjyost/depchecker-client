@@ -53,7 +53,7 @@ export default class Landing extends Component {
               that lead to better software, more billable hours and happier
               clients.
             </h2>
-            <Link to={ROUTES.APP}>
+            <Link id={`ctaTopLanding`} to={ROUTES.APP}>
               <Button
                 id={`ctaTopLanding`}
                 size={"large"}

@@ -6,6 +6,10 @@ import "brace/theme/monokai";
 import Dropzone from "react-dropzone";
 import { Button, Icon, Progress } from "antd";
 import axios from "axios";
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+import buildColumns from "../../lib/columnConfigs";
+import SimpleStorage from "react-simple-storage";
 
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
@@ -13,7 +17,8 @@ import { CSVLink, CSVDownload } from "react-csv";
 import ExampleJSON from "../../example.json";
 import socketIOClient from "socket.io-client";
 import Header from "../Header";
-import { Steps } from "antd";
+import { Steps, Tabs } from "antd";
+const { TabPane } = Tabs;
 const { Step } = Steps;
 
 // Add locale-specific relative date/time formatting rules.
@@ -28,6 +33,7 @@ export default class Main extends Component {
       step: 1,
       files: [],
       dependencies: [],
+      devDeps: [],
       packageJSON: {},
       packageJSONString:
         "...or simply paste your package.json file contents here...",
@@ -76,9 +82,11 @@ export default class Main extends Component {
     });
 
     this.socket.on("final", data => {
-      console.log(data);
+      const devDeps = data.filter(dep => dep.isDev);
+      const deps = data.filter(dep => !dep.isDev);
       this.setState({
-        dependencies: data,
+        dependencies: deps,
+        devDeps,
         csvData: data,
         step: 3
       });
@@ -86,6 +94,37 @@ export default class Main extends Component {
 
     this.setState({
       twitterLink: links[Math.floor(Math.random() * links.length)]
+    });
+  }
+
+  prepCSVData() {
+    const columns = buildColumns(this.state.packageJSON);
+    const currentRecords = this.reactTable.getResolvedState().sortedData;
+
+    let data_to_download = [];
+    for (let record of currentRecords) {
+      let record_to_download = {};
+      for (let col of columns) {
+        const accessor = col.accessor;
+
+        let value = null;
+        if (typeof accessor === "function") {
+          value = accessor(record._original);
+        } else {
+          value = record[accessor];
+        }
+
+        if ("_export" in col) {
+          value = col._export(value);
+        }
+        record_to_download[col._Header || col.Header] = value;
+      }
+
+      data_to_download.push(record_to_download);
+    }
+    this.setState({ csvData: data_to_download }, () => {
+      // click the CSVLink component to trigger the CSV download
+      this.csvLink.link.click();
     });
   }
 
@@ -113,11 +152,13 @@ export default class Main extends Component {
   }
 
   handleAnalyze() {
-    console.log("HANDLE");
     this.socket.emit("analyze", this.state.packageJSON);
     this.setState({
       step: 2,
-      depsToAnalyze: Object.keys(this.state.packageJSON.dependencies).length
+      depsToAnalyze: Object.keys({
+        ...this.state.packageJSON.dependencies,
+        ...this.state.packageJSON.devDependencies
+      }).length
     });
     // this.client
     //   .post("/analyze", {
@@ -160,8 +201,9 @@ export default class Main extends Component {
   }
 
   render() {
-    const { dependencies, files, packageJSON, step } = this.state;
+    const { dependencies, devDeps, files, packageJSON, step } = this.state;
     const mainStyles = this.props.styles;
+    console.log(dependencies);
 
     const disableAnalyze =
       !("dependencies" in this.state.packageJSON) || step !== 1;
@@ -204,7 +246,7 @@ export default class Main extends Component {
       return (
         <div
           style={{
-            padding: "60px 50px 20px 50px",
+            padding: "30px 50px 20px 50px",
             width: 700,
             margin: "auto"
             // backgroundColor: mainStyles.blueOp(0.05)
@@ -272,6 +314,7 @@ export default class Main extends Component {
 
             {!this.state.packageJSON.name && (
               <a
+                id={"tryAnExample"}
                 style={{ opacity: 0.7 }}
                 onClick={() => {
                   if (step === 1) {
@@ -481,30 +524,19 @@ export default class Main extends Component {
     };
 
     const renderCSVLink = () => {
-      const headers = [
-        { label: "Name", key: "name" },
-        { label: "Description", key: "description" },
-        { label: "Versions Behind", key: "versionsBehindText" },
-        { label: "Project Version", key: "currentProjectVersion" },
-        { label: "Latest Release", key: "latestVersion" },
-        { label: "Time Since Latest", key: "timeSinceLastVersionRelease" },
-        { label: "Latest Release Date", key: "lastReleaseDate" },
-        { label: "Weekly Downloads", key: "weeklyDownloads" },
-        { label: "Open Issues & Pull Requests", key: "openIssuesAndPRs" },
-        { label: "License", key: "license" },
-        { label: "Homepage", key: "homepage" }
-      ];
       return (
-        <CSVLink
-          data={this.state.csvData}
-          headers={headers}
-          filename={`${this.state.packageJSON.name}_dependencies`}
-          style={{
-            display: "flex",
-            justifyContent: "center"
-          }}
-        >
+        <div>
+          <CSVLink
+            ref={r => (this.csvLink = r)}
+            data={this.state.csvData}
+            filename={`${this.state.packageJSON.name}_dependencies`}
+            style={{
+              display: "flex",
+              justifyContent: "center"
+            }}
+          />
           <Button
+            onClick={() => this.prepCSVData()}
             id={"downloadCSV"}
             style={{
               margin: "auto",
@@ -513,9 +545,9 @@ export default class Main extends Component {
               fontWeight: "bold"
             }}
           >
-            <Icon type="download" style={{ marginRight: 3 }} />Download CSV File
+            Export to CSV
           </Button>
-        </CSVLink>
+        </div>
       );
     };
 
@@ -756,6 +788,7 @@ export default class Main extends Component {
     };
 
     const renderSteps = () => {
+      const isFinalStep = step === 3;
       const stepName = (name, isPastOrCurrent, isCurrent) => {
         return (
           <p
@@ -835,7 +868,7 @@ export default class Main extends Component {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            padding: "20px 20px 40px 20px",
+            padding: isFinalStep ? 20 : "20px 20px 40px 20px",
             overflowX: "hidden",
             width: "100%",
             zIndex: 10
@@ -851,7 +884,22 @@ export default class Main extends Component {
               maxWidth: "100%"
             }}
           >
-            {renderNumber(1, "Upload")}
+            {isFinalStep ? (
+              <Button
+                onClick={() => this.handleStartOver()}
+                type="primary"
+                size={"small"}
+                style={{
+                  fontWeight: "bold",
+                  maxWidth: "300px",
+                  margin: "0px 10px"
+                }}
+              >
+                Start Over
+              </Button>
+            ) : (
+              renderNumber(1, "Upload")
+            )}
             {line(step > 1)}
             {renderNumber(2, "Relax")}
             {line(step === 3)}
@@ -861,13 +909,94 @@ export default class Main extends Component {
       );
     };
 
+    const renderResults = isDev => {
+      const columns = buildColumns(packageJSON, mainStyles);
+      return (
+        <ReactTable
+          ref={r => (this.reactTable = r)}
+          filterable
+          data={isDev ? devDeps : dependencies}
+          columns={columns}
+          defaultPageSize={20}
+          style={{
+            maxWidth: "100%",
+            backgroundColor: "#fefefe",
+            borderTop: "none",
+            borderTopRightRadius: 5,
+            borderTopLeftRadius: 5
+          }}
+          defaultFilterMethod={(filter, row, column) => {
+            const id = filter.pivotId || filter.id;
+            return row[id] !== undefined
+              ? String(row[id])
+                  .toLowerCase()
+                  .includes(filter.value.toLowerCase())
+              : true;
+          }}
+          className={"-highlight"}
+        />
+      );
+    };
+
+    const renderTabs = () => {
+      return (
+        <Tabs animated={false}>
+          <TabPane
+            tab={`Deps (${this.state.dependencies.length})`}
+            key="1"
+            id={"depsTab"}
+          >
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  marginBottom: 10,
+                  justifyContent: "flex-end"
+                }}
+              >
+                {renderCSVLink()}
+              </div>
+              {renderResults()}
+            </div>
+          </TabPane>
+          <TabPane
+            tab={`Dev Deps (${this.state.devDeps.length})`}
+            key="2"
+            id={"devDepsTab"}
+          >
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  marginBottom: 10,
+                  justifyContent: "flex-end"
+                }}
+              >
+                {renderCSVLink()}
+              </div>
+              {renderResults(true)}
+            </div>
+          </TabPane>
+          <TabPane tab="Summary" key="3" id={"summaryReportTab"}>
+            Coming Soon!
+          </TabPane>
+          <TabPane tab="Past Reports" key="4" id={"oldReportsTab"}>
+            Coming Soon!
+          </TabPane>
+        </Tabs>
+      );
+    };
     return (
       <div
         style={{
           width: "100%",
-          paddingBottom: 100
+          paddingBottom: 100,
+          minHeight: "100vh"
         }}
       >
+        {/*<SimpleStorage parent={this} />*/}
         <Header styles={mainStyles} showContactText />
         <div
           style={{
@@ -885,35 +1014,7 @@ export default class Main extends Component {
           >
             {step === 1 && renderUpload()}
             {step === 2 && renderLoading()}
-            {step === 3 && (
-              <div>
-                <div
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    marginBottom: 10,
-                    justifyContent: "space-between"
-                  }}
-                >
-                  <Button
-                    className={"pulsingButton"}
-                    onClick={() => this.handleStartOver()}
-                    type="primary"
-                    style={{
-                      fontWeight: "bold",
-                      maxWidth: "300px"
-                    }}
-                  >
-                    Start Over
-                  </Button>
-                  {renderCSVLink()}
-                </div>
-                <Results
-                  packageJSON={packageJSON}
-                  dependencies={dependencies}
-                />
-              </div>
-            )}
+            {step === 3 && renderTabs()}
           </div>
         </div>
       </div>

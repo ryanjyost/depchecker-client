@@ -87,6 +87,14 @@ code {
   border-top-right-radius: 5px;
 }
 
+.hoverUnderline:hover {
+  text-decoration: underline;
+}
+
+.hoverOpacity:hover {
+   opacity: 1 !important;
+}
+
 
 .ReactTable -highlight {
   background-color: red !important;
