@@ -322,6 +322,7 @@ const buildColumns = (packageJSON, styles, buildForExport) => {
         } else if (row.value < 1000) {
           backgroundColor = fine;
         }
+
         return (
           <div style={{ ...divStyle, ...{ backgroundColor } }}>
             {row.value === null ? (
@@ -354,13 +355,12 @@ const buildColumns = (packageJSON, styles, buildForExport) => {
         );
       },
       _export: licenseData => {
-        if ("spdx_id" in licenseData) {
-          return licenseData.spdx_id;
-        } else if (typeof licenseData === "string") {
+        if (!licenseData) return "";
+        if (typeof licenseData === "string") {
           return licenseData;
-        }
-
-        return "";
+        } else if ("spdx_id" in licenseData) {
+          return licenseData.spdx_id;
+        } else return "";
       },
       _Header: "Vulnerabilities"
     },

@@ -88,6 +88,8 @@ export const getLicenseDataForDep = dep => {
 };
 
 export const getLicenseLevel = licenseData => {
+  if (!licenseData) return 4;
+
   if ("conditions" in licenseData) {
     if (licenseData.key === "mit") {
       return 0;

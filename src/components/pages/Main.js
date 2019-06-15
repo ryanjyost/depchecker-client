@@ -152,7 +152,10 @@ export default class Main extends Component {
   }
 
   handleAnalyze() {
-    this.socket.emit("analyze", this.state.packageJSON);
+    this.socket.emit("analyze", {
+      ...{ devDependencies: {} },
+      ...this.state.packageJSON
+    });
     this.setState({
       step: 2,
       depsToAnalyze: Object.keys({
