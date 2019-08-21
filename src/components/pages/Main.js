@@ -17,7 +17,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 import ExampleJSON from "../../example.json";
 import socketIOClient from "socket.io-client";
 import Header from "../Header";
-import { Steps, Tabs } from "antd";
+import { Steps, Tabs, Input } from "antd";
 const { TabPane } = Tabs;
 const { Step } = Steps;
 
@@ -32,18 +32,20 @@ export default class Main extends Component {
     this.initialState = {
       step: 1,
       files: [],
+      activeTab: "all",
       dependencies: [],
       devDeps: [],
       packageJSON: {},
       packageJSONString:
-        "...or simply paste your package.json file contents here...",
+        "...simply paste your package.json file contents here...",
       csvData: [],
       twitterLink: null,
       response: false,
       endpoint: "http://localhost:5000",
       depBeingAnalyzed: "",
       depIndex: 0,
-      depsToAnalyze: 0
+      depsToAnalyze: 0,
+      repoURL: ""
     };
     this.state = this.initialState;
     this.socket = socketIOClient(
@@ -99,7 +101,21 @@ export default class Main extends Component {
 
   prepCSVData() {
     const columns = buildColumns(this.state.packageJSON);
-    const currentRecords = this.reactTable.getResolvedState().sortedData;
+    let currentRecords = null;
+    switch (this.state.activeTab) {
+      case "all":
+        currentRecords = this.allDepsTable.getResolvedState().sortedData;
+        break;
+      case "deps":
+        currentRecords = this.depsTable.getResolvedState().sortedData;
+        break;
+      case "devDeps":
+        currentRecords = this.devDepsTable.getResolvedState().sortedData;
+        break;
+      default:
+        currentRecords = this.allDepsTable.getResolvedState().sortedData;
+        break;
+    }
 
     let data_to_download = [];
     for (let record of currentRecords) {
@@ -135,6 +151,7 @@ export default class Main extends Component {
   }
 
   readPackageJSON(file) {
+    // READ PACKAGE JSON FROM url when isValid and show spinner that its checking
     let formData = new FormData();
     formData.append("file", file);
 
@@ -152,10 +169,14 @@ export default class Main extends Component {
   }
 
   handleAnalyze() {
-    this.socket.emit("analyze", {
-      ...{ devDependencies: {} },
-      ...this.state.packageJSON
-    });
+    console.log("NALAUZE", this.state.repoURL);
+    this.socket.emit(
+      "analyze",
+      this.state.repoURL || {
+        ...{ devDependencies: {} },
+        ...this.state.packageJSON
+      }
+    );
     this.setState({
       step: 2,
       depsToAnalyze: Object.keys({
@@ -206,10 +227,14 @@ export default class Main extends Component {
   render() {
     const { dependencies, devDeps, files, packageJSON, step } = this.state;
     const mainStyles = this.props.styles;
-    console.log(dependencies);
 
-    const disableAnalyze =
-      !("dependencies" in this.state.packageJSON) || step !== 1;
+    let isValidGithubUrl = true;
+
+    // const disableAnalyze =
+    //   (!("dependencies" in this.state.packageJSON) && !isValidGithubUrl) ||
+    //   step !== 1;
+
+    const disableAnalyze = !("dependencies" in this.state.packageJSON);
 
     const renderUpload = () => {
       const baseStyle = {
@@ -246,10 +271,48 @@ export default class Main extends Component {
 
       const hasFile = "dependencies" in this.state.packageJSON;
 
+      const renderOrSeparator = () => {
+        return (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              margin: "20px 0px"
+            }}
+          >
+            <div
+              style={{
+                width: "50%",
+                height: 1,
+                backgroundColor: mainStyles.blackOp(0.07)
+              }}
+            />
+            <div
+              style={{
+                zIndex: 2,
+                backgroundColor: mainStyles.blueOp(0.01),
+                width: 50,
+                textAlign: "center",
+                color: mainStyles.blackOp(0.2)
+              }}
+            >
+              OR
+            </div>
+            <div
+              style={{
+                width: "50%",
+                height: 1,
+                backgroundColor: mainStyles.blackOp(0.07)
+              }}
+            />
+          </div>
+        );
+      };
+
       return (
         <div
           style={{
-            padding: "30px 50px 20px 50px",
+            padding: "0px 50px 20px 50px",
             width: 700,
             margin: "auto"
             // backgroundColor: mainStyles.blueOp(0.05)
@@ -260,36 +323,29 @@ export default class Main extends Component {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: 40
+              // borderBottom: "1px solid rgba(0,0,0,0.06)",
+              paddingBottom: 10
             }}
           >
             <div
               style={{
+                fontSize: 18,
+                textAlign: "center",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center"
+                color: mainStyles.black
               }}
             >
-              <div
+              <strong>Upload</strong>{" "}
+              <span
                 style={{
-                  fontSize: 18,
-                  textAlign: "center",
-                  display: "flex",
-                  alignItems: "center",
-                  color: mainStyles.black
+                  color: mainStyles.blackOp(0.3),
+                  fontSize: 14,
+                  padding: "0px 5px 0px 5px"
                 }}
               >
-                <strong>Upload</strong>{" "}
-                <span
-                  style={{
-                    color: mainStyles.blackOp(0.3),
-                    fontSize: 14,
-                    padding: "0px 5px 0px 5px"
-                  }}
-                >
-                  a package.json file to
-                </span>
-              </div>
+                a package.json file with one of the methods below to
+              </span>
             </div>
 
             <Button
@@ -307,28 +363,65 @@ export default class Main extends Component {
             >
               generate your report
             </Button>
-            {!this.state.packageJSON.name && (
-              <div
-                style={{ color: mainStyles.blackOp(0.3), margin: "0px 5px" }}
-              >
-                or
-              </div>
-            )}
-
-            {!this.state.packageJSON.name && (
-              <a
-                id={"tryAnExample"}
-                style={{ opacity: 0.7 }}
-                onClick={() => {
-                  if (step === 1) {
-                    this.onChooseExample();
-                  }
-                }}
-              >
-                try an example
-              </a>
-            )}
           </div>
+          <div
+            style={{
+              width: "100%",
+              textAlign: "center",
+              fontSize: "24px",
+              color: mainStyles.blackOp(0.4)
+            }}
+          >
+            <Icon type="arrow-down" />
+          </div>
+
+          <div
+            style={{
+              fontSize: 16,
+              textAlign: "center",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              color: mainStyles.black,
+              padding: "20px 0px 0px 0px"
+            }}
+          >
+            <a
+              id={"tryAnExample"}
+              style={{ opacity: 0.7 }}
+              onClick={() => {
+                if (step === 1) {
+                  this.onChooseExample();
+                }
+              }}
+            >
+              Click here to try an example <code>package.json</code>
+            </a>
+          </div>
+          {renderOrSeparator()}
+          {/*<div*/}
+          {/*style={{*/}
+          {/*fontSize: 16,*/}
+          {/*textAlign: "center",*/}
+          {/*display: "flex",*/}
+          {/*alignItems: "center",*/}
+          {/*justifyContent: "center",*/}
+          {/*width: "100%",*/}
+          {/*color: mainStyles.black,*/}
+          {/*padding: "0px 0px 0px 0px"*/}
+          {/*}}*/}
+          {/*>*/}
+          {/*<h5 style={{ margin: 0 }}>Paste Repo URL</h5>*/}
+          {/*<Input*/}
+          {/*style={{ maxWidth: 400, marginLeft: 5 }}*/}
+          {/*value={this.state.repoURL}*/}
+          {/*placeholder={"https://github.com/ryanjyost/depchecker-client"}*/}
+          {/*onChange={e => this.setState({ repoURL: e.target.value })}*/}
+          {/*/>*/}
+          {/*</div>*/}
+          {/*{renderOrSeparator()}*/}
+
           <Dropzone
             onDrop={files => this.onDrop(files)}
             accept="application/json"
@@ -418,7 +511,6 @@ export default class Main extends Component {
                       <Button
                         id={"browseFiles"}
                         size={"small"}
-                        className={"pulsingButton"}
                         type="primary"
                         onClick={() => open()}
                       >
@@ -430,6 +522,7 @@ export default class Main extends Component {
               );
             }}
           </Dropzone>
+          {renderOrSeparator()}
           <AceEditor
             value={this.state.packageJSONString}
             fontSize={12}
@@ -912,41 +1005,122 @@ export default class Main extends Component {
       );
     };
 
-    const renderResults = isDev => {
+    const renderResults = () => {
       const columns = buildColumns(packageJSON, mainStyles);
-      return (
-        <ReactTable
-          ref={r => (this.reactTable = r)}
-          filterable
-          data={isDev ? devDeps : dependencies}
-          columns={columns}
-          defaultPageSize={20}
-          style={{
-            maxWidth: "100%",
-            backgroundColor: "#fefefe",
-            borderTop: "none",
-            borderTopRightRadius: 5,
-            borderTopLeftRadius: 5
-          }}
-          defaultFilterMethod={(filter, row, column) => {
-            const id = filter.pivotId || filter.id;
-            return row[id] !== undefined
-              ? String(row[id])
-                  .toLowerCase()
-                  .includes(filter.value.toLowerCase())
-              : true;
-          }}
-          className={"-highlight"}
-        />
-      );
+
+      switch (this.state.activeTab) {
+        case "all":
+          return (
+            <ReactTable
+              ref={r => (this.allDepsTable = r)}
+              filterable
+              data={[...dependencies, ...devDeps]}
+              columns={columns}
+              defaultPageSize={20}
+              style={{
+                maxWidth: "100%",
+                backgroundColor: "#fefefe",
+                borderTop: "none",
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5
+              }}
+              defaultFilterMethod={(filter, row, column) => {
+                const id = filter.pivotId || filter.id;
+                return row[id] !== undefined
+                  ? String(row[id])
+                      .toLowerCase()
+                      .includes(filter.value.toLowerCase())
+                  : true;
+              }}
+              className={"-highlight"}
+            />
+          );
+
+        case "deps":
+          return (
+            <ReactTable
+              ref={r => (this.depsTable = r)}
+              filterable
+              data={dependencies}
+              columns={columns}
+              defaultPageSize={20}
+              style={{
+                maxWidth: "100%",
+                backgroundColor: "#fefefe",
+                borderTop: "none",
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5
+              }}
+              defaultFilterMethod={(filter, row, column) => {
+                const id = filter.pivotId || filter.id;
+                return row[id] !== undefined
+                  ? String(row[id])
+                      .toLowerCase()
+                      .includes(filter.value.toLowerCase())
+                  : true;
+              }}
+              className={"-highlight"}
+            />
+          );
+        case "devDeps":
+          return (
+            <ReactTable
+              ref={r => (this.devDepsTable = r)}
+              filterable
+              data={devDeps}
+              columns={columns}
+              defaultPageSize={20}
+              style={{
+                maxWidth: "100%",
+                backgroundColor: "#fefefe",
+                borderTop: "none",
+                borderTopRightRadius: 5,
+                borderTopLeftRadius: 5
+              }}
+              defaultFilterMethod={(filter, row, column) => {
+                const id = filter.pivotId || filter.id;
+                return row[id] !== undefined
+                  ? String(row[id])
+                      .toLowerCase()
+                      .includes(filter.value.toLowerCase())
+                  : true;
+              }}
+              className={"-highlight"}
+            />
+          );
+      }
     };
 
     const renderTabs = () => {
       return (
-        <Tabs animated={false}>
+        <Tabs
+          animated={false}
+          activeKey={this.state.activeTab}
+          onChange={key => this.setState({ activeTab: key })}
+        >
+          <TabPane
+            tab={`All Deps (${this.state.dependencies.length +
+              this.state.devDeps.length})`}
+            key="all"
+            id={"allDepsTab"}
+          >
+            <div>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  marginBottom: 10,
+                  justifyContent: "flex-end"
+                }}
+              >
+                {renderCSVLink()}
+              </div>
+              {renderResults("all")}
+            </div>
+          </TabPane>
           <TabPane
             tab={`Deps (${this.state.dependencies.length})`}
-            key="1"
+            key="deps"
             id={"depsTab"}
           >
             <div>
@@ -965,7 +1139,7 @@ export default class Main extends Component {
           </TabPane>
           <TabPane
             tab={`Dev Deps (${this.state.devDeps.length})`}
-            key="2"
+            key="devDeps"
             id={"devDepsTab"}
           >
             <div>
@@ -982,15 +1156,16 @@ export default class Main extends Component {
               {renderResults(true)}
             </div>
           </TabPane>
-          <TabPane tab="Summary" key="3" id={"summaryReportTab"}>
+          <TabPane tab="Summary" key="summary" id={"summaryReportTab"}>
             Coming Soon!
           </TabPane>
-          <TabPane tab="Past Reports" key="4" id={"oldReportsTab"}>
+          <TabPane tab="Past Reports" key="old" id={"oldReportsTab"}>
             Coming Soon!
           </TabPane>
         </Tabs>
       );
     };
+
     return (
       <div
         style={{
